@@ -35,6 +35,10 @@ https://docs.djangoproject.com/ja/3.2/ref/django-admin/#django-admin-runserver
 python manage.py shell
 ```
 
+# テスト実行
+```
+python manage.py test polls
+```
 
 
 # プロジェクトの作成(git clone時点で生成済み)
