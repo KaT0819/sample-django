@@ -1,0 +1,15 @@
+{% extends "news/base.html" %}
+{% block content %}
+    {% for n in news %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="#">{{ n.author }}</a>
+                    <small class="text-muted">{{ n.pub_date | date:"F d, Y" }}</small>
+                </div>
+                <h2><a class="article-title" href="#">{{ n.title }}</a></h2>
+                <p class="article-content">{{ n.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+{% endblock content %}
