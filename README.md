@@ -1,13 +1,5 @@
 # sample-django
 
-# djangoインストール
-```
-python -m pip install Djangoe
-
-python -m django --version
-$3.2
-```
-
 # DB作成
 ```
 python manage.py migrate
@@ -41,6 +33,20 @@ python manage.py test polls
 ```
 
 
+
+# djangoインストール
+```
+python -m pip install Djangoe
+
+python -m django --version
+$3.2
+```
+他
+```
+pip install django-crispy-forms
+
+```
+
 # プロジェクトの作成(git clone時点で生成済み)
 ```
 django-admin startproject mysite
@@ -68,6 +74,21 @@ python manage.py makemigrations polls
 ```
 python manage.py sqlmigrate polls 0001
 ```
+
+## マイグレーションの履歴
+```
+python manage.py showmigrations
+```
+
+## マイグレーションを戻す
+```
+# アプリケーション名、マイグレーション名はshowmigrationsで確認できる。
+python manage.py APPLICATION_NAME MIGRATION_NAME
+
+# 初期化
+python manage.py migrate news zero
+```
+
 
 # 管理ユーザー作成
 ```
