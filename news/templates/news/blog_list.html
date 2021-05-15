@@ -1,12 +1,16 @@
 {% extends "news/base.html" %}
 {% block content %}
-    {% for n in news %}
+    {% for n in blogs %}
         <article class="media content-section">
             <img class="rounded-circle article-img" src="{{ n.author.profile.image.url }}">
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="#">{{ n.author }}</a>
                     <small class="text-muted">{{ n.pub_date | date:"Y/n/j (D)" }}</small>
+                    {% if n.author == user %}
+                        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'news:update' n.id %}">編集</a>
+                        <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'news:delete' n.id %}">削除</a>
+                    {% endif %}
                 </div>
                 <h2><a class="article-title" href="{% url 'news:detail' n.id %}">{{ n.title }}</a></h2>
                 <p class="article-content">{{ n.text }}</p>
