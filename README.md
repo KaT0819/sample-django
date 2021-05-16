@@ -4,7 +4,10 @@
 ```
 python manage.py migrate
 ```
-
+## データベース指定する場合
+```
+python manage.py migrate --database=db_name
+```
 
 #
 # 
@@ -33,10 +36,18 @@ python manage.py test polls
 ```
 
 
+# デプロイ
+DEBUG を False
+静的ファイルの管理
+・STATIC_ROOTを指定し、下記を実行
+```
+python manage.py collectstatic
+```
+
 
 # djangoインストール
 ```
-python -m pip install Djangoe
+python -m pip install Django
 
 python -m django --version
 $3.2
