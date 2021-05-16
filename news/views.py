@@ -1,7 +1,13 @@
 from django.shortcuts import get_object_or_404, render
-from django.urls import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.models import User
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
 from .models import Blog
 
@@ -17,10 +23,22 @@ def index(request):
 
 class BlogListView(ListView):
     model = Blog
-    # templateファイルの指定。　未指定の場合は {PROJECT}/{MODEL}_{VIEW}.html
+    # templateファイルの指定。　未指定の場合は {APP}/{MODEL}_{VIEW}.html
     # template_name = "news/index.html"
-    context_object_name = "blogs"
+    context_object_name = 'blogs'
     ordering = ['-pub_date']
+    paginate_by = 3
+
+
+class UserBlogListView(ListView):
+    model = Blog
+    template_name = 'news/user_posts.html'
+    context_object_name = 'blogs'
+    paginate_by = 5
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Blog.objects.filter(author=user).order_by('-pub_date')
 
 
 class BlogDetailView(DetailView):
