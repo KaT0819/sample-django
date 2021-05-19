@@ -19,7 +19,7 @@ shell:
 
 
 
-l-migrate:
+local-migrate:
 	python manage.py migrate
 
 test:
@@ -28,5 +28,15 @@ test:
 run:
 	python manage.py runserver
 
-l-shell:
+local-shell:
 	python manage.py shell
+
+
+heroku-init:
+	heroku run python manage.py migrate
+
+heroku-static:
+	heroku run python manage.py collectstatic
+
+heroku-log:
+	heroku log --tail
