@@ -19,7 +19,7 @@ from pathlib import Path
 
 
 env = environ.Env()
-env.read_env('.env')
+# env.read_env('.env')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -28,7 +28,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
+# Herokuにはgitignore対象の.envをアップロードできないため、
+# 環境変数から読み取り、環境変数がない場合、envから読み取るようにする。
 # SECURITY WARNING: keep the secret key used in production secret!
+# SECRET_KEY = os.environ.get("SECRET_KEY")
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -36,7 +39,7 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env.bool("DEBUG", default=False)
 DEBUG_PROPAGATE_EXCEPTIONS = True
 
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
+# ALLOWED_HOSTS = [os.environ.get("ALLOWED_HOSTS")]
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
 
 # Application definition
@@ -159,7 +162,13 @@ LOGGING = {
             "level": env("DJANGO_LOG_LEVEL", default="INFO"),
             "class": "logging.StreamHandler",
             "formatter": "simple",
-        }
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'mysite.log',
+            'formatter': 'verbose'
+        },
     },
     "formatters": {
         "verbose": {
