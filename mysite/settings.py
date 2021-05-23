@@ -34,6 +34,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = os.environ.get('DEBUG') == 'True'
 DEBUG = env.bool("DEBUG", default=False)
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=Csv())
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS", default=["*"])
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'mysite.urls'
@@ -133,7 +135,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 # STATICFILES_DIRS = [
 #     BASE_DIR / "assets"
@@ -169,7 +171,7 @@ LOGGING = {
 }
 
 # Suppress "Starting new HTTPS connection" messages
-logging.getLogger("requests.packages.urllib3.connectionpool").setLevel(logging.ERROR)
+logging.getLogger("requests.packages.urllib3.connectionpool").setLevel(logging.DEBUG)
 
 
 
@@ -208,3 +210,4 @@ django_heroku.settings(locals())
 # 開発時はSSL接続なし
 if env('ENV') == 'dev':
     del DATABASES['default']['OPTIONS']['sslmode']
+
